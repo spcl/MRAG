@@ -1,0 +1,186 @@
+[
+    {
+        "label": "countries",
+        "starting_points": [
+            "Member states of the United Nations"
+        ],
+        "explicit_category": "Member states of the United Nations"
+    },
+    {
+        "label": "board games",
+        "starting_points": [
+            "List of board games"
+        ],
+        "category_pattern": "Board games"
+    },
+    {
+        "label": "swords",
+        "starting_points": [
+            "List of historical swords"
+        ],
+        "category_pattern": "Sword"
+    },
+    {
+        "label": "battles",
+        "starting_points": [
+            "List of battles before 301"
+        ],
+        "category_pattern": "battle",
+        "title_prefix": "Battle of"
+    },
+    {
+        "label": "trees",
+        "starting_points": [
+            "List of individual trees"
+        ],
+        "category_pattern": "Individual trees"
+    },
+    {
+        "label": "dog breeds",
+        "starting_points": [
+            "List of dog breeds"
+        ],
+        "category_pattern": "breeds"
+    },
+    {
+        "label": "sci-fi novels",
+        "starting_points": [
+            "List of science fiction novels"
+        ],
+        "category_pattern": "science fiction novels"
+    },
+    {
+        "label": "minerals",
+        "starting_points": [
+            "List of minerals"
+        ],
+        "category_pattern": "minerals"
+    },
+    {
+        "label": "creatures",
+        "starting_points": [
+            "List of Greek mythological creatures",
+            "List of legendary creatures from China",
+            "Legendary creatures of the Argentine Northwest region",
+            "List of creatures in Meitei culture",
+            "List of legendary creatures from Japan"
+        ],
+        "category_pattern": "creature"
+    },
+    {
+        "label": "banned books",
+        "starting_points": [
+            "List of books banned by governments"
+        ],
+        "category_pattern": "books"
+    },
+    {
+        "label": "prisons",
+        "starting_points": [
+            "List of prisons"
+        ],
+        "category_pattern": "prisons"
+    },
+    {
+        "label": "cognitive bias",
+        "starting_points": [
+            "List of cognitive biases"
+        ],
+        "category_pattern": "cognitive"
+    },
+    {
+        "label": "instruments",
+        "starting_points": [
+            "List of musical instruments"
+        ],
+        "category_pattern": "Musical instrument"
+    },
+    {
+        "label": "programming languages",
+        "starting_points": [
+            "List of programming languages"
+        ],
+        "category_pattern": "Programming language"
+    },
+    {
+        "label": "architecture",
+        "starting_points": [
+            "List of architectural styles"
+        ],
+        "category_pattern": "Architectur"
+    },
+    {
+        "label": "nobel",
+        "starting_points": [
+            "List of Nobel laureates"
+        ],
+        "category_pattern": "Nobel laureate"
+    },
+    {
+        "label": "memes",
+        "starting_points": [
+            "List of Internet phenomena"
+        ],
+        "category_pattern": "meme"
+    },
+    {
+        "label": "shipwrecks",
+        "starting_points": [
+            "List of shipwrecks in international waters",
+            "List of shipwrecks of Oceania",
+            "List of shipwrecks of North America"
+        ],
+        "category_pattern": "ships"
+    },
+    {
+        "label": "disney",
+        "starting_points": [
+            "List of Walt Disney Studios films (2010\u20132019)",
+            "List of Walt Disney Studios films (1990\u20131999)",
+            "List of Walt Disney Studios films (1960\u20131979)"
+        ],
+        "category_pattern": "films"
+    },
+    {
+        "label": "elements",
+        "starting_points": [
+            "List of chemical elements"
+        ],
+        "explicit_category": "Chemical elements"
+    },
+    {
+        "label": "cakes",
+        "starting_points": [
+            "List of desserts"
+        ],
+        "category_pattern": "cake"
+    },
+    {
+        "label": "stars",
+        "starting_points": [
+            "List of nearest stars and brown dwarfs"
+        ],
+        "category_pattern": "stars"
+    },
+    {
+        "label": "diss_tracks",
+        "starting_points": [
+            "List of diss tracks"
+        ],
+        "category_pattern": "songs"
+    },
+    {
+        "label": "assassinated",
+        "starting_points": [
+            "List of assassinations"
+        ],
+        "category_pattern": "assassinated"
+    },
+    {
+        "label": "martial arts",
+        "starting_points": [
+            "List of martial arts"
+        ],
+        "category_pattern": "martial arts"
+    }
+]

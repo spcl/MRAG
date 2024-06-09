@@ -1,0 +1,47 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["multirag", "multirag.dataset", "multirag.evaluation", "multirag.storage", "multirag.embed", "multirag.plot"]
+py-modules = []
+
+[project]
+name = "multirag"
+version = "0.0.1"
+authors = [
+  { name = "Roman Niggli", email = "roman.niggli@inf.ethz.ch" },
+  { name = "Lucas Weitzendorf", email = "lweitzendorf@inf.ethz.ch" },
+  { name = "Maciej Besta", email = "maciej.besta@inf.ethz.ch" },
+  { name = "Ales Kubicek", email = "akubicek@student.ethz.ch" },
+  { name = "Robert Gerstenberger", email = "gerstenberger.robert@gmail.com" },
+  { name = "Patrick Iff", email = "patrick.iff@inf.ethz.ch" },
+]
+description = "Python package for 'Multi-Head RAG' (MRAG)"
+readme = "README.md"
+license = {file = "LICENSE"}
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Operating System :: OS Independent",
+]
+requires-python = ">=3.9"
+dependencies = [
+  "pyyaml ~= 6.0.1",
+  "torch >= 2.1.0",
+  "transformers ~= 4.41.0",
+  "openai ~= 1.30.1",
+  "wikipedia-api ~= 0.6.0",
+  "numpy ~= 1.26.4",
+  "pandas ~= 2.2.2",
+  "matplotlib ~= 3.8.4",
+  "psycopg2-binary",
+  "pgvector ~= 0.2.5",
+  "tqdm ~= 4.66.4",
+  "seaborn ~= 0.13.2"
+]
+
+[project.urls]
+Repository = "https://github.com/spcl/MRAG.git"
+
+[project.scripts]
+multirag-cli = "multirag.__main__:main"
