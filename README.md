@@ -4,7 +4,7 @@
   <img src="paper/pics/mrag-overview.svg" width="80%">
 </p>
 
-This is the official implementation of [Multi-Head RAG: Solving Multi-Aspect Problems with LLMs](https://arxiv.org/pdf/2406..pdf).
+This is the official implementation of [Multi-Head RAG: Solving Multi-Aspect Problems with LLMs](https://arxiv.org/pdf/2406.05085.pdf).
 
 This framework implements Multi-Head RAG (MRAG), a novel scheme focused on
 queries that may require fetching multiple documents with substantially
@@ -117,6 +117,6 @@ Using this in your work? Please reference us using the provided citation:
   year = 2024,
   month = June,
   eprinttype = {arXiv},
-  eprint = {2406.}
+  eprint = {2406.05085}
 }
 ```
