@@ -11,7 +11,7 @@
 import os
 import json
 
-from typing import Any, Optional
+from typing import Any, List, Optional, Set, Tuple
 from dataclasses import dataclass
 
 import torch
@@ -130,12 +130,12 @@ class EmbeddingModel:
             self.last_input = x
             return self._module.forward(x)
 
-    def __init__(self, target_layers: Optional[set[int]], device: str) -> None:
+    def __init__(self, target_layers: Optional[Set[int]], device: str) -> None:
         """
         Initialize the embedding model.
 
         :param target_layers: Layers to target.
-        :type target_layers: Optional[set[int]]
+        :type target_layers: Optional[Set[int]]
         :param device: The device to load the model on.
         :type device: str
         """
@@ -188,16 +188,16 @@ class EmbeddingModel:
             return FullEmbeddings(standard_embedding, all_layer_embeddings)
 
 
-def embed_articles(articles: list[Article], model: EmbeddingModel) -> list[ArticleEmbeddings]:
+def embed_articles(articles: List[Article], model: EmbeddingModel) -> List[ArticleEmbeddings]:
     """
     Embed Article documents.
 
     :param articles: List of Article documents.
-    :type articles: list[Article]
+    :type articles: List[Article]
     :param model: Embedding model to use.
     :type model: EmbeddingModel
     :return: List of embeddings for the Article documents.
-    :rtype: list[ArticleEmbeddings]
+    :rtype: List[ArticleEmbeddings]
     """
     for article in tqdm(articles, "Generating article embeddings"):
         embeddings = model.generate_embeddings(article.text)
@@ -205,16 +205,16 @@ def embed_articles(articles: list[Article], model: EmbeddingModel) -> list[Artic
         yield article_embedding
 
 
-def embed_queries(queries: list[Query], model: EmbeddingModel) -> list[QueryEmbeddings]:
+def embed_queries(queries: List[Query], model: EmbeddingModel) -> List[QueryEmbeddings]:
     """
     Embed queries.
 
     :param queries: List of queries.
-    :type queries: list[Query]
+    :type queries: List[Query]
     :param model: Embedding model to use.
     :type model: EmbeddingModel
     :return: List of embeddings for the queries.
-    :rtype: list[QueryEmbeddings]
+    :rtype: List[QueryEmbeddings]
     """
     def construct_input(_instruct: str, _query: str) -> str:
         """
@@ -291,8 +291,8 @@ class EmbeddingEncoder(json.JSONEncoder):
 
 def _load_embeddings(
         file_path: str,
-        articles: Optional[list[Article]]
-) -> tuple[list[ArticleEmbeddings], list[QueryEmbeddings]]:
+        articles: Optional[List[Article]]
+) -> Tuple[List[ArticleEmbeddings], List[QueryEmbeddings]]:
     """
     Load the document and query embeddings from a JSON file.
 
@@ -302,9 +302,9 @@ def _load_embeddings(
     :param file_path: Path to the input JSON file.
     :type file_path: str
     :param articles: Article documents.
-    :type articles: Optional[list[Article]]
+    :type articles: Optional[List[Article]]
     :return: Document and query embeddings.
-    :rtype: tuple[list[ArticleEmbeddings], list[QueryEmbeddings]]
+    :rtype: Tuple[List[ArticleEmbeddings], List[QueryEmbeddings]]
     """
     with open(file_path, 'r') as file:
         json_data = json.load(file)
@@ -344,14 +344,14 @@ def _load_embeddings(
     return article_embeddings, query_embeddings
 
 
-def load_embeddings(file_path: str) -> tuple[list[ArticleEmbeddings], list[QueryEmbeddings]]:
+def load_embeddings(file_path: str) -> Tuple[List[ArticleEmbeddings], List[QueryEmbeddings]]:
     """
     Load the document and query embeddings from a JSON file.
 
     :param file_path: Path to the input JSON file.
     :type file_path: str
     :return: Document and query embeddings.
-    :rtype: tuple[list[ArticleEmbeddings], list[QueryEmbeddings]]
+    :rtype: Tuple[List[ArticleEmbeddings], List[QueryEmbeddings]]
     """
     return _load_embeddings(file_path, None)
 
@@ -359,9 +359,9 @@ def load_embeddings(file_path: str) -> tuple[list[ArticleEmbeddings], list[Query
 def generate_embeddings(
         article_path: str,
         query_path: str,
-        target_layers: Optional[set[int]],
+        target_layers: Optional[Set[int]],
         export_path: str
-) -> tuple[list[ArticleEmbeddings], list[QueryEmbeddings]]:
+) -> Tuple[List[ArticleEmbeddings], List[QueryEmbeddings]]:
     """
     Generate embeddings of the documents in the dataset and the queries.
 
@@ -370,11 +370,11 @@ def generate_embeddings(
     :param query_path: Path to the JSON file containing the queries.
     :type query_path: str
     :param target_layers: Layers to target for the attention head embeddings.
-    :type target_layers: Optional[set[int]]
+    :type target_layers: Optional[Set[int]]
     :param export_path: Path to the output file.
     :type export_path: str
     :return: Document and query embeddings.
-    :rtype: tuple[list[ArticleEmbeddings], list[QueryEmbeddings]]
+    :rtype: Tuple[List[ArticleEmbeddings], List[QueryEmbeddings]]
     """
     articles: list[Article] = load_articles(article_path)
     queries: list[Query] = load_queries(query_path, articles)

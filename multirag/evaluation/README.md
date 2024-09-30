@@ -26,8 +26,10 @@ optional arguments:
 ## Strategies
 The file `evaluate.py` contains several different retrieval strategies, as well as an abstract class for defining your own strategies. We now describe the already implemented strategies.
 
+
 ### Standard
 The class `StandardStrategy` implements the _"standard"_ retrieval strategy. It retrieves documents for a given prompt by ordering them based on their distance to the prompt in the standard embedding space, and selecting the documents closest to the prompt.
+
 
 ### Multi-Head RAG
 The class `MultiHeadStrategy` implements the _"Multi-Head RAG"_ retrieval strategy, which we fully explain in the paper. We now briefly describe the necessary steps for this retrieval strategy:
@@ -36,14 +38,17 @@ The class `MultiHeadStrategy` implements the _"Multi-Head RAG"_ retrieval strate
 3. Accumulate the score for each document across all attention heads.
 4. Retrieve the documents with the highest cumulative scores.
 
+
 ### Split-RAG
 The class `SplitStrategy` implements the _"Split-RAG"_ retrieval strategy.
 It works identical to _Multi-Head RAG_, but uses the segments of the standard embedding instead of the attention embeddings.
+
 
 ### RAG-Fusion
 The class `FusionStrategy` implements Zackary Rackauckas' [RAG-Fusion](https://arxiv.org/abs/2402.03367) retrieval strategy.
 Instead of directly performing standard retrieval based on a prompt, it lets an LLM generate a number of questions about the prompt in question, and performs retrieval for those questions.
 The results of these retrievals are then combined through reciprocal rank fusion to produce the final selection of documents to return.
+
 
 ### MRAG-Fusion
 The class `MultiHeadFusionStrategy` implements the _"MRAG-Fusion"_ retrieval strategy.

@@ -13,7 +13,7 @@ import numpy as np
 from tqdm import tqdm
 from pgvector.psycopg2 import register_vector
 
-from typing import Any, Union
+from typing import Any, Dict, List, Tuple, Union
 from enum import Enum
 
 from multirag.dataset import (
@@ -86,16 +86,16 @@ class VectorDB:
         """
         register_vector(self._conn)
 
-    def _fetch(self, sql: str, args: Union[tuple, dict] = ()) -> list[Any]:
+    def _fetch(self, sql: str, args: Union[Tuple, Dict] = ()) -> List[Any]:
         """
         Fetch data from an SQL query.
 
         :param sql: SQL query to execute.
         :type sql: str
         :param args: Arguments for the SQL query. Defaults to empty.
-        :type args: Union[tuple, dict]
+        :type args: Union[Tuple, Dict]
         :return: Results of the executed query as a list of elements.
-        :rtype: list[Any]
+        :rtype: List[Any]
         """
         curs = self._conn.cursor()
         curs.execute(sql, args)
@@ -103,14 +103,14 @@ class VectorDB:
         curs.close()
         return res
 
-    def _execute(self, sql: str, args: Union[tuple, dict] = ()) -> None:
+    def _execute(self, sql: str, args: Union[Tuple, Dict] = ()) -> None:
         """
         Execute an SQL query.
 
         :param sql: SQL query to execute.
         :type sql: str
         :param args: Arguments for the SQL query. Defaults to empty.
-        :type args: Union[tuple, dict]
+        :type args: Union[Tuple, Dict]
         """
         curs = self._conn.cursor()
         curs.execute(sql, args)
@@ -128,24 +128,24 @@ class VectorDB:
         return len(self._fetch("SELECT * FROM articles LIMIT 1;")) == 0
 
     @property
-    def attention_scales(self) -> list[float]:
+    def attention_scales(self) -> List[float]:
         """
         Get the attention scales from the respective database table.
         This and the cut standard scales should be computed during the first
         initialisation of the vector database.
 
         :return: Attention scales.
-        :rtype: list[float]
+        :rtype: List[float]
         """
         return self._fetch("SELECT scales FROM attention_scales LIMIT 1;")[0][0].tolist()
 
     @property
-    def cut_standard_scales(self) -> list[float]:
+    def cut_standard_scales(self) -> List[float]:
         """
         Get the cut standard scales from the respective database table.
 
         :return: Cut standard scales:
-        :rtype: list[float]
+        :rtype: List[float]
         """
         return self._fetch("SELECT scales FROM cut_standard_scales LIMIT 1;")[0][0].tolist()
 
@@ -238,14 +238,14 @@ class VectorDB:
         self._execute(sql, (article_id, embedding))
 
     @staticmethod
-    def _split_embedding(embedding: Embedding) -> list[Embedding]:
+    def _split_embedding(embedding: Embedding) -> List[Embedding]:
         """
         Split the embedding into 32 chunks.
 
         :param embedding: Embedding to be split.
         :type embedding: Embedding
         :return: List of embedding chunks.
-        :rtype: list[Embedding]
+        :rtype: List[Embedding]
         """
         chunk_size, rem = divmod(len(embedding), 32)
         assert rem == 0, "embedding length must be divisible by 32"
@@ -269,7 +269,7 @@ class VectorDB:
         chunks = self._split_embedding(embedding)
         self._execute(sql, (article_id, *chunks))
 
-    def _add_attention_embeddings(self, article_id: int, layer_idx: int, embeddings: list[Embedding]) -> None:
+    def _add_attention_embeddings(self, article_id: int, layer_idx: int, embeddings: List[Embedding]) -> None:
         """
         Add the attention embeddings of an article for a specific layer into a database table.
 
@@ -278,7 +278,7 @@ class VectorDB:
         :param layer_idx: Layer of the attention embedding.
         :type layer_idx: int
         :param embeddings: Attention embeddings of the article in layer layer_idx.
-        :type embeddings: list[Embedding]
+        :type embeddings: List[Embedding]
         """
         all_heads = ", ".join(f"head{head:02}" for head in range(32))
         all_values = ", ".join("%s" for _ in range(34))
@@ -302,7 +302,7 @@ class VectorDB:
         for layer_idx, layer_embeddings in embeddings.layer_embeddings.items():
             self._add_attention_embeddings(article_id, layer_idx, layer_embeddings.attention_heads)
 
-    def add_articles(self, articles: list[ArticleEmbeddings]) -> None:
+    def add_articles(self, articles: List[ArticleEmbeddings]) -> None:
         """
         Add all the provided articles to the database, then compute their attention-
         and standard-scales and store the results as well.
@@ -325,7 +325,7 @@ class VectorDB:
         scales for the dataset's current form are returned.
 
         :param articles: Articles and their embeddings to add to the database.
-        :type articles: list[ArticleEmbeddings]
+        :type articles: List[ArticleEmbeddings]
         """
         for article_emb in tqdm(articles, "Importing article embeddings"):
             self._add_article(article_emb)
@@ -346,7 +346,7 @@ class VectorDB:
         self._execute("DELETE FROM articles;")
         self._conn.commit()
 
-    def standard_search(self, emb: FullEmbeddings, n: int = 32) -> list[tuple[float, Article]]:
+    def standard_search(self, emb: FullEmbeddings, n: int = 32) -> List[Tuple[float, Article]]:
         """
         Do a similarity search for the provided query within the standard embedding space.
 
@@ -355,7 +355,7 @@ class VectorDB:
         :param n: Number of similar embeddings to pick. Defaults to 32.
         :type n: int
         :returns: List of tuples (distance, Article) with top :n: selections.
-        :rtype: list[tuple[float, Article]]
+        :rtype: List[Tuple[float, Article]]
         """
         embedding = np.array(emb.standard_embedding)
         cache_key = ('standard', embedding.data.tobytes())
@@ -383,7 +383,7 @@ class VectorDB:
             emb: FullEmbeddings,
             layer_idx: int,
             n: int = 32
-    ) -> list[list[tuple[float, Article]]]:
+    ) -> List[List[Tuple[float, Article]]]:
         """
         Do a similarity search for the provided query within the attention embedding spaces.
 
@@ -394,7 +394,7 @@ class VectorDB:
         :param n: Number of similar embeddings to pick for each attention head. Defaults to 32.
         :type n: int
         :returns: List of 32 lists of tuples (distance, Article) with top :n: selections for each head.
-        :rtype: list[list[tuple[float, Article]]]
+        :rtype: List[List[Tuple[float, Article]]]
         """
         res: list[list[tuple[float, Article]]] = []
         embeddings = np.array(emb.layer_embeddings[layer_idx].attention_heads)
@@ -423,7 +423,7 @@ class VectorDB:
 
         return res
 
-    def cut_standard_search(self, emb: FullEmbeddings, n: int = 32) -> list[list[tuple[float, Article]]]:
+    def cut_standard_search(self, emb: FullEmbeddings, n: int = 32) -> List[List[Tuple[float, Article]]]:
         """
         Do a similarity search for the provided query within the cut standard embedding spaces.
 
@@ -432,7 +432,7 @@ class VectorDB:
         :param n: Number of similar embedding to pick within each cut standard embedding segment. Defaults to 32.
         :type n: int
         :returns: List of 32 lists of tuples (distance, title) with top :n: selections for each segment.
-        :rtype: list[list[tuple[float, Article]]]
+        :rtype: List[List[Tuple[float, Article]]]
         """
         res: list[list[tuple[float, Article]]] = []
         embedding = emb.standard_embedding

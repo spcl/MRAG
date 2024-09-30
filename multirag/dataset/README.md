@@ -2,6 +2,7 @@
 
 The dataset module handles the generation of the synthetic Wikipedia article-based dataset as well as the generation of queries for that dataset.
 
+
 ## Synthetic Dataset Generation
 
 You can use the `multirag-cli datagen` command to generate the synthetic Wikipedia-based dataset, which comes with the following command line interface:
@@ -50,6 +51,7 @@ Generating a synthetic dataset with the standard paramaters takes roughly 10 min
 ```
 `label` is the name of the category. `starting_points` references the Wikipedia articles that serve as a staring point for the article discovery.
 The `explicit_category` attribute helps with the scraping of Wikipedia articles. Every articles that contains `explicit_category` as a substring will be accepted as an article of the category.
+
 
 ### Dataset Output Format
 
@@ -230,6 +232,7 @@ The following example shows an example prompt for the generation of fusion quest
     "content": "OUTPUT (4 queries):"
 }
 ```
+
 
 ### Example Queries
 The queries were formatted for better readability.

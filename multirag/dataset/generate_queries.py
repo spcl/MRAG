@@ -13,7 +13,7 @@ import json
 import random
 
 from enum import Enum
-from typing import Any
+from typing import Any, List, Set
 from dataclasses import dataclass
 
 from tqdm import tqdm
@@ -72,7 +72,7 @@ class QueryGenerator:
     """
     Class that uses the OpenAI API to generate the queries.
 
-    It supports GPT-3.5-Turo, GPT-4, GPT-4-Turbo and GPT-4o.
+    It supports GPT-3.5-Turbo, GPT-4, GPT-4-Turbo and GPT-4o.
     """
     class Model(Enum):
         GPT_3_5_TURBO = "gpt-3.5-turbo"
@@ -85,13 +85,13 @@ class QueryGenerator:
         self.model = model
 
     @staticmethod
-    def _construct_prompt(topics: set[Article]) -> str:
+    def _construct_prompt(topics: Set[Article]) -> str:
         """
         Based on a list of article titles, construct a prompt for an LLM.
         This prompt instructs the LLM to create a story about all articles.
 
         :param topics: Articles to be used to construct the prompt.
-        :type topics: set[Article]
+        :type topics: Set[Article]
         :return: A prompt for an LLM.
         :rtype: str
         """
@@ -122,12 +122,12 @@ class QueryGenerator:
 
         return setup + articles + postfix
 
-    def query_from_topics(self, topics: set[Article]) -> Query:
+    def query_from_topics(self, topics: Set[Article]) -> Query:
         """
         Generate a synthetic query via the OpenAI API.
 
         :param topics: Articles to be used in the query.
-        :type topics: set[Article]
+        :type topics: Set[Article]
         :return: Synthetic query for the synthetic dataset.
         :rtype: Query
         """
@@ -183,18 +183,18 @@ class QueryGenerator:
         return FusionQuery(query.topics, query.text, response.split('\n'))
 
 
-def _sample_query_topics(articles: list[Article], k: int, n: int) -> list[set[Article]]:
+def _sample_query_topics(articles: List[Article], k: int, n: int) -> List[Set[Article]]:
     """
     Sort list of articles by category and pick k topics for n queries.
 
     :param articles: List of articles to choose from for the queries.
-    :type articles: list[Article]
+    :type articles: List[Article]
     :param k: Number of articles per query.
     :type k: int
     :param n: Number of queries.
     :type n: int
     :return: List of articles for the queries.
-    :rtype: list[set[Article]]
+    :rtype: List[Set[Article]]
     """
     query_topics: list[set[Article]] = []
 
@@ -217,16 +217,16 @@ def _sample_query_topics(articles: list[Article], k: int, n: int) -> list[set[Ar
     return query_topics
 
 
-def load_queries(file_path: str, articles: list[Article]) -> list[Query]:
+def load_queries(file_path: str, articles: List[Article]) -> List[Query]:
     """
     Load queries stored in a JSON file.
 
     :param file_path: Path to the query file.
     :type file_path: str
     :param articles: List of articles.
-    :type articles: list[Article]
+    :type articles: List[Article]
     :return: List of queries.
-    :rtype: list[Query]
+    :rtype: List[Query]
     """
     with open(file_path, 'r') as file:
         json_data = json.load(file)
@@ -285,12 +285,12 @@ def _check_query(query: Query) -> bool:
     return all(map(is_mentioned, query.topics))
 
 
-def _save_to_file(queries: list[Query], file_path: str) -> None:
+def _save_to_file(queries: List[Query], file_path: str) -> None:
     """
     Store list of queries in a JSON file.
 
     :param queries: List of queries.
-    :type queries: list[Query]
+    :type queries: List[Query]
     :param file_path: Path to the output file.
     :type file_path: str
     """
@@ -301,10 +301,10 @@ def _save_to_file(queries: list[Query], file_path: str) -> None:
 
 
 def _review_queries(
-        queries: list[Query],
+        queries: List[Query],
         default_generator: QueryGenerator,
         export_path: str
-) -> list[Query]:
+) -> List[Query]:
     """
     Iterate through all generated queries. For the ones with "text" field == "" do:
     - generate new query
@@ -317,13 +317,13 @@ def _review_queries(
     pick one result where only very few topics are missing.
 
     :param queries: List of already generated queries.
-    :type queries: list[Query]
+    :type queries: List[Query]
     :param default_generator: Query generator class to use.
     :type default_generator: QueryGenerator
     :param export_path: Path to the output file.
     :type export_path: str
     :return: List of queries.
-    :rtype: list[Query]
+    :rtype: List[Query]
     """
     to_be_reviewed = [(i, query) for i, query in enumerate(queries) if not _check_query(query)]
     if not to_be_reviewed:
@@ -364,14 +364,14 @@ def _review_queries(
 
 
 def generate_queries(
-        aspects: list[int],
+        aspects: List[int],
         article_path: str,
         num_queries: int,
         num_attempts: int,
         manual_review: bool,
         num_fusion_queries: int,
         export_path: str,
-) -> list[Query]:
+) -> List[Query]:
     """
     Function to generate queries from a specified file.
     The function opens the specified file, and for each query description found in the file
@@ -379,7 +379,7 @@ def generate_queries(
     If there are already queries present, the user will be prompted, whether to regenerate them.
 
     :param aspects: List of number of aspects that should be incorporated in the query generation.
-    :type aspects: list[int]
+    :type aspects: List[int]
     :param article_path: Path to the synthetic dataset, where the Wikipedia articles are stored.
     :type article_path: str
     :param num_queries: Number of queries to generate.
@@ -395,7 +395,7 @@ def generate_queries(
     :param num_fusion_queries: Number of fusion queries to generate per standard query.
     :type num_fusion_queries: int
     :return: List of queries.
-    :rtype: list[Query]
+    :rtype: List[Query]
     """
     assert num_attempts >= 1
     assert len(aspects) > 0

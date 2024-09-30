@@ -14,7 +14,7 @@ import random
 import itertools
 
 from tqdm import tqdm
-from typing import Any, Optional
+from typing import Any, List, Optional, Set
 from dataclasses import dataclass
 from multiprocessing.pool import ThreadPool
 
@@ -82,14 +82,14 @@ class MultiRagWiki(Wikipedia):
         super().__init__(user_agent)
 
 
-def load_articles(file_path: str) -> list[Article]:
+def load_articles(file_path: str) -> List[Article]:
     """
     Load articles from input JSON file.
 
     :param file_path: Path to the input JSON file.
     :type file_path: str
     :return: List of articles.
-    :rtype: list[Article]
+    :rtype: List[Article]
     """
     with open(file_path, 'r') as file:
         json_data: list[dict[str, str]] = json.load(file)
@@ -132,19 +132,19 @@ def _match_page(page: WikipediaPage, config: CategoryConfig) -> bool:
 
 
 def _fetch_articles_for_group(
-        pages: list[WikipediaPage],
+        pages: List[WikipediaPage],
         config: CategoryConfig,
         sample_size: int,
         min_length: int,
         pbar: tqdm = None,
         retries: int = 3
-) -> set[Article]:
+) -> Set[Article]:
     """
     For a given category, retrieve a random set of `sample_size` articles matching
     the criteria specified in `config` and a minimum length of `min_length`.
 
     :param pages: List of Wikipedia pages.
-    :type pages: list[WikipediaPage]
+    :type pages: List[WikipediaPage]
     :param config: Category config to match against.
     :type config: CategoryConfig
     :param sample_size: Number of articles to sample.
@@ -156,7 +156,7 @@ def _fetch_articles_for_group(
     :param retries: Maximum number of retries after encountering :exception:`HTTPError`. Defaults to 3.
     :type retries: int
     :return: Set of articles referenced from `pages` matching the criteria.
-    :rtype: set[Article]
+    :rtype: Set[Article]
     """
     if sample_size < 1:
         return set()
@@ -207,7 +207,7 @@ def fetch_articles(
         samples_per_category: int,
         min_article_length: int,
         export_path: str
-) -> list[Article]:
+) -> List[Article]:
     """
     Retrieve summaries of Wikipedia articles in each category.
 
@@ -222,7 +222,7 @@ def fetch_articles(
     :param export_path: Path to the output file.
     :type export_path: str
     :return: List of documents (including title and category).
-    :rtype: list[Article]
+    :rtype: List[Article]
     """
     with open(config_path, 'r') as file:
         config_dicts: list[dict[str, Any]] = json.load(file)
