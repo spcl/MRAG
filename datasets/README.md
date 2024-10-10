@@ -1,5 +1,6 @@
 ## Datasets
 
+
 ### Wikipedia Articles
 
 `wikipedia_articles.json.bz2` contains the compressed JSON file, that we used as the synthetic Wikipedia article dataset during the evaluation of MRAG.
@@ -10,6 +11,24 @@ The documents are based on the summary of Wikipedia articles and each document c
 Please uncompess `wikipedia_articles.json.bz2` using `bunzip2` before using it.
 
 For the format of the JSON file see the respective [section](../multirag/dataset/README.md#dataset-output-format) in the dataset module documention.
+
+
+### Legal Documents
+
+`legal_documents_v1.tar.bz2` contains the legal documents dataset used during the evaluation of MRAG.
+It consists of 25 categories with 25 topics.
+Each topic is stored in an individual JSON file and contains 10 documents.
+The dataset consists of 6,250 documents in total.
+We provide an improved version of the dataset as `legal_documents_v2.tar.bz2` with longer document summaries.
+
+
+### Chemical Plant Accident Dataset
+
+`chem_documents_v1.tar.bz2` contains the dataset created for the analysis of causes of chemical plant accidents.
+Similar to the legal document datasets, this dataset consists of 25 categories with 25 topics, where each topic has 10 documents and is stored in a single JSON file.
+The dataset consists of 6,250 documents in total.
+We also provide an improved version of the dataset as `chem_documents_v2.tar.bz2` with longer document summaries.
+
 
 ## Queries
 
