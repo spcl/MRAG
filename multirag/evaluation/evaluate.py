@@ -85,7 +85,7 @@ class Strategy:
         Run the evaluation of the chosen strategy.
 
         :param query_embs: Query embeddings to evaluate.
-        :type query_embs: QueryEmbedding
+        :type query_embs: list[QueryEmbeddings]
         :param n: Maximum number of documents retrieved per query.
         :type n: int
         :return: Results for the strategy.
@@ -134,7 +134,7 @@ class StandardStrategy(Strategy):
         embedding space.
 
         :param query_embs: Query embeddings to evaluate.
-        :type query_embs: QueryEmbedding
+        :type query_embs: QueryEmbeddings
         :param n: Number of documents to retrieve.
         :type n: int
         :return: Tuple with the retrieved documents from closest to furthest.
@@ -327,7 +327,7 @@ class FusionStrategy(Strategy):
         number of documents to fetch.
 
         :param query_emb: Query embedding to evaluate.
-        :type query_emb: FusionQueryEmbedding
+        :type query_emb: FusionQueryEmbeddings
         :param n: Maximum number of documents to retrieve.
         :type n: int
         :return: List with selections for retrieving [1, ..., n] documents.

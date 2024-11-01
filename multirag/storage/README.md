@@ -32,7 +32,7 @@ db commands:
   {start,stop,clear,import}
 ```
 
-The start command (`multirag-cli db start`) allows the user to start the vector database, so that can be used subsequently.
+The start command (`multirag-cli db start`) allows the user to start the vector database, so that it can be used subsequently.
 ```
 usage: multirag-cli db start [-h]
 
@@ -46,7 +46,7 @@ The stop command (`multirag-cli db stop`) allows the user to shutdown the vector
 ```
 usage: multirag-cli db stop [-h]
 
-stop database Docker container
+Stop database Docker container
 
 optional arguments:
   -h, --help  show this help message and exit

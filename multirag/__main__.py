@@ -228,7 +228,7 @@ def parse_args():
 
     db_subparsers.add_parser(
         'stop',
-        description='stop database Docker container',
+        description='Stop database Docker container',
         formatter_class=argparse.ArgumentDefaultsHelpFormatter
     )
 
