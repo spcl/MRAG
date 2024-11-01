@@ -72,7 +72,7 @@ class Strategy:
         Retrieve the n documents closest to query_embs.
 
         :param query_embs: Query embeddings to evaluate.
-        :type query_embs: QueryEmbedding
+        :type query_embs: QueryEmbeddings
         :param n: Number of documents to retrieve.
         :type n: int
         :return: Either the n retrieved documents, or a list of n retrieval selections.
