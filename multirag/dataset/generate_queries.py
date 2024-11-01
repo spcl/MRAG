@@ -72,7 +72,7 @@ class QueryGenerator:
     """
     Class that uses the OpenAI API to generate the queries.
 
-    It supports GPT-3.5-Turo, GPT-4, GPT-4-Turbo and GPT-4o.
+    It supports GPT-3.5-Turbo, GPT-4, GPT-4-Turbo and GPT-4o.
     """
     class Model(Enum):
         GPT_3_5_TURBO = "gpt-3.5-turbo"

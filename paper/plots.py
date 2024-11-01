@@ -10,7 +10,7 @@
 
 
 """
-This is script reproduces the plots presented in the paper.
+This script reproduces the plots presented in the paper.
 
 The data format for the json files with the results is as follows:
 ```
