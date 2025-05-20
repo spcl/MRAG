@@ -125,7 +125,7 @@ Each question is separately applied through an embedding model.
 
 ### Query Output Format
 
-```
+```JSON
 [
     {
         "topics": ["...", "..." ...],
@@ -144,7 +144,7 @@ The attribute `fusion` is used only for fusion queries and contains the prompts,
 ### Example Prompts
 The prompts were formatted for better readability.
 The following example shows the prompt for a query generation with two aspects.
-```
+```JSON
 {
     "role": "system",
     "content":
@@ -194,7 +194,7 @@ The following example shows the prompt for a query generation with two aspects.
 }
 ```
 The following example shows an example prompt for the generation of fusion questions for the same query that was generated with the prompt above.
-```
+```JSON
 {
     "role": "system",
     "content":

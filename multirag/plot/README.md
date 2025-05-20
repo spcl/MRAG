@@ -22,7 +22,7 @@ optional arguments:
 
 ## Input Format
 The data format for the json files with results is as follows:
-```
+```JSON
 {
     "standard-rag": {
         "1": {
