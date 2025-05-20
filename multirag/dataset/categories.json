@@ -182,5 +182,510 @@
             "List of martial arts"
         ],
         "category_pattern": "martial arts"
+    },
+    {
+        "label": "popes",
+        "starting_points": [
+            "List of popes"
+        ],
+        "explicit_category": "Popes"
+    },
+    {
+        "label": "linux distros",
+        "starting_points": [
+            "List of Linux distributions"
+        ],
+        "explicit_category": "Linux distributions"
+    },
+    {
+        "label": "sumo wrestlers",
+        "starting_points": [
+            "List of active sumo wrestlers",
+            "List of the heaviest sumo wrestlers",
+            "List of komusubi",
+            "List of ōzeki",
+            "ist of non-Japanese sumo wrestlers",
+            "List of past sumo wrestlers",
+            "ist of sekiwake",
+            "List of sumo elders",
+            "ist of sumo record holders",
+            "List of yokozuna"
+        ],
+        "category_pattern": "sumo wrestlers"
+    },
+    {
+        "label": "explosions",
+        "starting_points": [
+            "List of explosions"
+        ],
+        "category_pattern": "explosions"
+    },
+    {
+        "label": "organs",
+        "starting_points": [
+            "List of organs of the human body",
+            "Organ (biology)"
+        ],
+        "category_pattern": "Organ"
+    },
+    {
+        "label": "fishes",
+        "starting_points": [
+            "List of fishes of Yellowstone National Park",
+            "List of fishes of Great Britain",
+            "List of fishes of the Coral Sea"
+        ],
+        "category_pattern": "Fish"
+    },
+    {
+        "label": "disestablished retailers",
+        "starting_points": [
+            "List of retailers affected by the retail apocalypse"
+        ],
+        "category_pattern": "retail"
+    },
+    {
+        "label": "european rivers",
+        "starting_points": [
+            "List of alternative names for European rivers"
+        ],
+        "category_pattern": "rivers"
+    },
+    {
+        "label": "antarctic research stations",
+        "starting_points": [
+            "Research stations in Antarctica"
+        ],
+        "category_pattern": "antarctic"
+    },
+    {
+        "label": "badly received video games",
+        "starting_points": [
+            "List of video games notable for negative reception"
+        ],
+        "category_pattern": "video games"
+    },
+    {
+        "label": "cars",
+        "starting_points": [
+            "List of automobile sales by model"
+        ],
+        "category_pattern": "cars"
+    },
+    {
+        "label": "galaxies",
+        "starting_points": [
+            "List of galaxies"
+        ],
+        "category_pattern": "galaxies"
+    },
+    {
+        "label": "conjectures",
+        "starting_points": [
+            "List of conjectures"
+        ],
+        "category_pattern": "conjectures"
+    },
+    {
+        "label": "poisonous plants",
+        "starting_points": [
+            "List of poisonous plants"
+        ],
+        "category_pattern": "plants"
+    },
+    {
+        "label": "websites",
+        "starting_points": [
+            "List of most-visited websites",
+            "Category:Creative Commons-licensed websites",
+            "Category:American social networking websites"
+        ],
+        "category_pattern": "websites"
+    },
+    {
+        "label": "mountains",
+        "starting_points": [
+            "Category:Mountains of the Alps",
+            "Category:Mountains of Colombia",
+            "Category:Mountains of Tibet"
+        ],
+        "category_pattern": "mountains of"
+    },
+    {
+        "label": "mathematical transforms",
+        "starting_points": [
+            "List of transforms",
+            "Category:Transforms"
+        ],
+        "category_pattern": "transforms"
+    },
+    {
+        "label": "financial service companies",
+        "starting_points": [
+            "Category:Financial services companies established in 1990",
+            "Category:Financial services companies established in 1991",
+            "Category:Financial services companies established in 1992",
+            "Category:Financial services companies established in 1993",
+            "Category:Financial services companies established in 1994",
+            "Category:Financial services companies established in 1995",
+            "Category:Financial services companies established in 1996"
+        ],
+        "category_pattern": "Financial services companies established in"
+    },
+    {
+        "label": "national coat of arms",
+        "starting_points": [
+            "Category:National coats of arms"
+        ],
+        "explicit_category": "National coats of arms"
+    },
+    {
+        "label": "application layer protocols",
+        "starting_points": [
+            "Category:Application layer protocols"
+        ],
+        "explicit_category": "Application layer protocols"
+    },
+    {
+        "label": "tall buildings",
+        "starting_points": [
+            "List of tallest structures built before the 20th century"
+        ],
+        "category_pattern": "buildings"
+    },
+    {
+        "label": "dance styles",
+        "starting_points": [
+            "List of dance styles"
+        ],
+        "category_pattern": "dance"
+    },
+    {
+        "label": "english football clubs",
+        "starting_points": [
+            "Category:Football clubs in England"
+        ],
+        "explicit_category": "Football clubs in England"
+    },
+    {
+        "label": "antidepressants",
+        "starting_points": [
+            "Category:Antidepressants"
+        ],
+        "explicit_category": "Antidepressants"
+    },
+    {
+        "label": "calendars",
+        "starting_points": [
+            "List of calendars"
+        ],
+        "category_pattern": "calendar"
+    },
+    {
+        "label": "sensors",
+        "starting_points": [
+            "Category:Sensors"
+        ],
+        "explicit_category": "Sensors"
+    },
+    {
+        "label": "mozart",
+        "starting_points": [
+            "List of compositions by Wolfgang Amadeus Mozart"
+        ],
+        "category_pattern": "compositions"
+    },
+    {
+        "label": "coins",
+        "starting_points": [
+            "Category:Coins of Scotland",
+            "Category:Coins of Slovakia",
+            "Category:Coins of South Africa",
+            "Category:Coins of South Korea",
+            "Category:Coins of Spain",
+            "Category:Coins of Sri Lanka",
+            "Category:Coins of Sweden",
+            "Category:Coins of Switzerland",
+            "Category:Coins of Germany",
+            "Coins of the United States dollar"
+        ],
+        "category_pattern": "coin"
+    },
+    {
+        "label": "infections diseases",
+        "starting_points": [
+            "List of infectious diseases"
+        ],
+        "category_pattern": "bacteria"
+    },
+    {
+        "label": "cryptocurrencies",
+        "starting_points": [
+            "Category:Cryptocurrencies",
+            "Category:Meme coins",
+            "Category:Stablecoins",
+            "Category:Cryptocurrency projects"
+        ],
+        "category_pattern": "cryptocurrenc"
+    },
+    {
+        "label": "best-selling albums",
+        "starting_points": [
+            "List of best-selling albums"
+        ],
+        "category_pattern": "albums"
+    },
+    {
+        "label": "integer sequences",
+        "starting_points": [
+            "Category:Integer sequences"
+        ],
+        "explicit_category": "Integer sequences"
+    },
+    {
+        "label": "cheese",
+        "starting_points": [
+            "Category:Swiss cheeses",
+            "Category:French cheeses",
+            "Category:German cheeses",
+            "Category:Italian cheeses",
+            "Category:Austrian cheeses"
+        ],
+        "category_pattern": "cheeses"
+    },
+    {
+        "label": "-gate scandals",
+        "starting_points": [
+            "List of -gate scandals and controversies"
+        ],
+        "category_pattern": "controvers"
+    },
+    {
+        "label": "film festivals",
+        "starting_points": [
+            "List of film festivals"
+        ],
+        "category_pattern": "film festivals"
+    },
+    {
+        "label": "particles",
+        "starting_points": [
+            "List of particles"
+        ],
+        "category_pattern": "particle"
+    },
+    {
+        "label": "languages",
+        "starting_points": [
+            "List of languages by time of extinction"
+        ],
+        "category_pattern": "extinct languages"
+    },
+    {
+        "label": "american television series",
+        "starting_points": [
+            "List of longest-running American television series"
+        ],
+        "category_pattern": "television series"
+    },
+    {
+        "label": "waterfalls",
+        "starting_points": [
+            "List of waterfalls"
+        ],
+        "category_pattern": "waterfalls"
+    },
+    {
+        "label": "railway stations",
+        "starting_points": [
+            "List of rail transit stations in the Greater Manila Area",
+            "List of rail transit stations in the Klang Valley area",
+            "List of railway stations in India"
+        ],
+        "category_pattern": "railway station"
+    },
+    {
+        "label": "soft drinks",
+        "starting_points": [
+            "List of soft drinks by country"
+        ],
+        "category_pattern": "drinks"
+    },
+    {
+        "label": "paintings",
+        "starting_points": [
+            "List of most expensive paintings",
+            "List of works by Vincent van Gogh",
+            "Category:Paintings by Frida Kahlo"
+        ],
+        "category_pattern": "paintings"
+    },
+    {
+        "label": "currencies",
+        "starting_points": [
+            "List of circulating currencies"
+        ],
+        "category_pattern": "currencies"
+    },
+    {
+        "label": "airlines",
+        "starting_points": [
+            "List of largest airlines in Europe",
+            "List of largest airlines in Asia",
+            "List of largest airlines in North America",
+            "List of largest airlines in South America",
+            "List of largest airlines in Africa"
+        ],
+        "category_pattern": "airlines"
+    },
+    {
+        "label": "marvel characters with super-strength",
+        "starting_points": [
+            "Category:Marvel Comics characters with superhuman strength"
+        ],
+        "explicit_category": "Marvel Comics characters with superhuman strength"
+    },
+    {
+        "label": "search engines",
+        "starting_points": [
+            "List of search engines"
+        ],
+        "category_pattern": "search engine"
+    },
+    {
+        "label": "np-complete problems",
+        "starting_points": [
+            "Category:NP-complete problems"
+        ],
+        "explicit_category": "NP-complete problems"
+    },
+    {
+        "label": "special force units",
+        "starting_points": [
+            "List of military special forces units"
+        ],
+        "category_pattern": "special forces"
+    },
+    {
+        "label": "amusement",
+        "starting_points": [
+            "Category:Amusement parks in England",
+            "Category:Amusement parks in the Canada",
+            "Category:Defunct amusement parks in the United States by state or territory",
+            "Category:Amusement rides in the United States by state or territory",
+            "Category:Water parks in the United States by state or territory",
+            "Category:Amusement parks in Alabama",
+            "Category:Amusement parks in Alaska",
+            "Category:Amusement parks in Arizona",
+            "Category:Amusement parks in Arkansas",
+            "Category:Amusement parks in California",
+            "Category:Amusement parks in Colorado",
+            "Category:Amusement parks in Connecticut",
+            "Category:Amusement parks in Florida",
+            "Category:Amusement parks in Georgia (U.S. state)",
+            "Category:Amusement parks in Hawaii",
+            "Category:Amusement parks in Idaho",
+            "Category:Amusement parks in Illinois",
+            "Category:Amusement parks in Indiana",
+            "Category:Amusement parks in Iowa",
+            "Category:Amusement parks in Kansas",
+            "Category:Amusement parks in Kentucky",
+            "Category:Amusement parks in Louisiana",
+            "Category:Amusement parks in Maine",
+            "Category:Amusement parks in Maryland",
+            "Category:Amusement parks in Massachusetts",
+            "Category:Amusement parks in Michigan",
+            "Category:Amusement parks in Minnesota",
+            "Category:Amusement parks in Mississippi",
+            "Category:Amusement parks in Missouri",
+            "Category:Amusement parks in Montana",
+            "Category:Amusement parks in Nebraska",
+            "Category:Amusement parks in Nevada",
+            "Category:Amusement parks in New Hampshire",
+            "Category:Amusement parks in New Jersey",
+            "Category:Amusement parks in New Mexico",
+            "Category:Amusement parks in New York (state)",
+            "Category:Amusement parks in North Carolina",
+            "Category:Amusement parks in Ohio",
+            "Category:Amusement parks in Oklahoma",
+            "Category:Amusement parks in Oregon",
+            "Category:Amusement parks in Pennsylvania",
+            "Category:Amusement parks in Rhode Island",
+            "Category:Amusement parks in South Carolina",
+            "Category:Amusement parks in Tennessee",
+            "Category:Amusement parks in Texas",
+            "Category:Amusement parks in Utah",
+            "Category:Amusement parks in Virginia",
+            "Category:Amusement parks in Washington",
+            "Category:Amusement parks in West Virginia",
+            "Category:Amusement parks in Wisconsin"
+        ],
+        "category_pattern": "amusement parks"
+    },
+    {
+        "label": "mausoleums",
+        "starting_points": [
+            "Category:Mausoleums in China",
+            "Category:Mausoleums in South Korea",
+            "Category:Mausoleums in Serbia",
+            "Category:Mausoleums in Turkey",
+            "Category:Mausoleums in Pakistan",
+            "Category:Mausoleums in Kazakhstan",
+            "Category:Mausoleums in Uzbekistan",
+            "Category:Mausoleums in Malaysia",
+            "Category:Mausoleums in Malacca",
+            "Category:Mausoleums in the United States",
+            "Category:Mausoleums in the United Kingdom",
+            "Category:Mausoleums in the Czech Republic",
+            "Category:Mausoleums in the Dominican Republic",
+            "Category:Mausoleums in Russia",
+            "Category:Jewish mausoleums",
+            "Category:Mausoleums in India"
+        ],
+        "category_pattern": "mausoleum"
+    },
+    {
+        "label": "documentary films",
+        "starting_points": [
+            "List of documentary films"
+        ],
+        "category_pattern": "documentary films"
+    },
+    {
+        "label": "heavy metal singers",
+        "starting_points": [
+            "List of female heavy metal singers",
+            "Category:American heavy metal singers",
+            "Category:Finnish heavy metal singers",
+            "Category:Swiss heavy metal singers"
+        ],
+        "category_pattern": "heavy metal singers"
+    },
+    {
+        "label": "insects",
+        "starting_points": [
+            "Category:Insects of China",
+            "Category:Insects of Europe",
+            "Category:Insects of Australia",
+            "Category:Insects of North America",
+            "Category:Insects of South America"
+        ],
+        "category_pattern": "insects"
+    },
+    {
+        "label": "horror film remakes",
+        "starting_points": [
+            "Category:Horror film remakes"
+        ],
+        "explicit_category": "Horror film remakes"
+    },
+    {
+        "label": "volcanoes",
+        "starting_points": [
+            "List of volcanoes in Japan",
+            "List of volcanoes in the United States",
+            "List of volcanoes in Europe"
+        ],
+        "category_pattern": "volcanoes"
     }
 ]
