@@ -50,3 +50,12 @@ Jürgen Müller, Hubert Niewiadomski, Marcin Chrapek, Michał Podstawski,
 Torsten Hoefler: Multi-Head RAG: Solving Multi-Aspect Problems with
 LLMs. In: arXiv preprint arXiv:2406.05085.
 ----------------------------------------------------------------------
+
+
+MRAG has adapted some code for its Fusion RAG implementation from the
+original repository (https://github.com/Raudaschl/rag-fusion), which has
+no license specified.
+
+Zackary Rackauckas. 2024. RAG-Fusion: A New Take on Retrieval-Augmented
+Generation. International Journal on Natural Language Computing 13, 1
+(Feb. 2024), 37–47. https://doi.org/10.5121/ijnlc.2024.13103
