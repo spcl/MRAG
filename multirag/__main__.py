@@ -86,16 +86,6 @@ def parse_args():
         default=[1, 2, 3, 4, 5, 6, 10, 15, 20, 25],
         help='List of aspect numbers to incorporate into the queries.'
     )
-    """
-    parser.add_argument(
-        '-b',
-        '--budget',
-        type=float,
-        nargs='?',
-        required=True,
-        help='Budget in Dollars.'
-    )
-    """
     query_gen_parser.add_argument(
         '-d',
         '--dataset-path',
