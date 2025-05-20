@@ -8,18 +8,16 @@
 # Lucas Weitzendorf
 # Roman Niggli
 
-import os
 import json
+import os
 import random
-
+from dataclasses import dataclass
 from enum import Enum
 from typing import Any
-from dataclasses import dataclass
-
-from tqdm import tqdm
-from openai import OpenAI
 
 from multirag.dataset import Article, load_articles
+from openai import OpenAI
+from tqdm import tqdm
 
 
 @dataclass(frozen=True)
@@ -72,10 +70,9 @@ class QueryGenerator:
     """
     Class that uses the OpenAI API to generate the queries.
 
-    It supports GPT-3.5-Turbo, GPT-4, GPT-4-Turbo and GPT-4o.
+    It supports GPT-4, GPT-4-Turbo and GPT-4o.
     """
     class Model(Enum):
-        GPT_3_5_TURBO = "gpt-3.5-turbo"
         GPT_4 = "gpt-4"
         GPT_4_TURBO = "gpt-4-turbo"
         GPT_4O = "gpt-4o"
@@ -313,8 +310,8 @@ def _review_queries(
 
     Note that for high numbers of related topics, it can become practically impossible
     to obtain a query that contains every single specified topic. In that case, it is
-    recommended to try a couple of times, then try with gpt-4o a few times, and maybe
-    pick one result where only very few topics are missing.
+    recommended to try a couple of times, then try with gpt-4-turbo a few times, and
+    maybe pick one result where only very few topics are missing.
 
     :param queries: List of already generated queries.
     :type queries: list[Query]
@@ -330,7 +327,7 @@ def _review_queries(
         print("No queries require manual review.")
         return queries
 
-    advanced_generator = QueryGenerator(QueryGenerator.Model.GPT_4O)
+    advanced_generator = QueryGenerator(QueryGenerator.Model.GPT_4_TURBO)
     print()
 
     for i, (q_idx, query) in enumerate(to_be_reviewed):
@@ -401,7 +398,7 @@ def generate_queries(
     assert len(aspects) > 0
 
     articles: list[Article] = load_articles(article_path)
-    generator = QueryGenerator(QueryGenerator.Model.GPT_3_5_TURBO)
+    generator = QueryGenerator(QueryGenerator.Model.GPT_4O)
 
     try:
         queries: list[Query] = load_queries(export_path, articles)

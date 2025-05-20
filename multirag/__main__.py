@@ -10,12 +10,12 @@
 # contributions:
 # Robert Gerstenberger
 
-import sys
 import argparse
 import subprocess
+import sys
 
-import yaml
 import psycopg2
+import yaml
 
 from multirag import *
 
@@ -116,7 +116,7 @@ def parse_args():
         '--num-attempts',
         type=int,
         nargs='?',
-        default=2,
+        default=5,
         help='Number of attempts to retry the generation of a query that previously failed.'
     )
     query_gen_parser.add_argument(
@@ -140,7 +140,7 @@ def parse_args():
         '--num-queries',
         type=int,
         nargs='?',
-        default=25,
+        default=160,
         help='Number of queries to generate.'
     )
 
