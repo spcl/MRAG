@@ -12,7 +12,7 @@
 """
 This script reproduces the plots presented in the paper.
 
-The data format for the json files with the results is as follows:
+The data format for the JSON files with the results is as follows:
 ```
 {
     "standard-rag": {
