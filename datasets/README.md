@@ -44,6 +44,7 @@ Please uncompess `wikipedia_queries_v1.json.bz2` using `bunzip2` before using it
 For the format of the JSON file see the respective [section](../multirag/dataset/README.md#query-output-format) in the dataset module documention.
 
 We also provide queries for the extended version of the Wikipedia dataset in `wikipedia_queries_v2.json.bz2`.
+It contains 160 queries with 1, 2, 3, 4, 5, 6, 10, 15, 20 and 25 aspects respectively, so a total of 1600 queries.
 
 Please use the documents and queries of the same version if you want to recreate our results.
 
