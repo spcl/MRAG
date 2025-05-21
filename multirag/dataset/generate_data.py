@@ -8,18 +8,17 @@
 # Lucas Weitzendorf
 # Roman Niggli
 
+import itertools
 import json
 import os
 import random
-import itertools
-
-from tqdm import tqdm
-from typing import Any, Optional
 from dataclasses import dataclass
 from multiprocessing.pool import ThreadPool
+from typing import Any, Optional
 
-from wikipediaapi import WikipediaPage, Wikipedia
-from requests import ReadTimeout, ConnectionError, JSONDecodeError
+from requests import ConnectionError, JSONDecodeError, ReadTimeout
+from tqdm import tqdm
+from wikipediaapi import Wikipedia, WikipediaPage
 
 
 @dataclass(frozen=True)
@@ -109,7 +108,7 @@ def _match_page(page: WikipediaPage, config: CategoryConfig) -> bool:
     :rtype: bool
     """
     # is it a list?
-    if page.title.startswith("List "):
+    if page.title.startswith("List ") or page.title.startswith("Category"):
         return False
 
     # check if pattern appears in any category
@@ -163,8 +162,12 @@ def _fetch_articles_for_group(
 
     candidates: list[WikipediaPage] = []
     for page in pages:
-        for linked_page in page.links.values():
-            if page.title != linked_page.title:
+        cands = (
+            page.categorymembers.values()
+            if page.title.startswith('Category:')
+            else page.links.values())
+        for linked_page in cands:
+            if linked_page.title not in (page.title, "Category:" + page.title):
                 candidates.append(linked_page)
 
     random.shuffle(candidates)
