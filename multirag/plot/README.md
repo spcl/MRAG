@@ -21,7 +21,7 @@ optional arguments:
 
 
 ## Input Format
-The data format for the json files with results is as follows:
+The data format for the JSON files with results is as follows:
 ```
 {
     "standard-rag": {
@@ -40,4 +40,5 @@ The data format for the json files with results is as follows:
     "multirag-strategy-decay": {...},
     "multirag-strategy-distance": {...},
     "split-rag-strategy-weighted": {...},
+}
 ```
