@@ -111,10 +111,10 @@ Got any questions or feedback? Feel free to reach out and open an issue.
 Using this in your work? Please reference us using the provided citation:
 
 ```bibtex
-@misc{besta2024multihead,
+@misc{besta2025multihead,
   title = {{Multi-Head RAG: Solving Multi-Aspect Problems with LLMs}},
-  author = {Besta, Maciej and Kubicek, Ales and Niggli, Roman and Gerstenberger, Robert and Weitzendorf, Lucas and Chi, Mingyuan and Iff, Patrick and Gajda, Joanna and Nyczyk, Piotr and M\"{u}ller, J\"{u}rgen and Niewiadomski, Hubert and Chrapek, Marcin and Podstawksi, Micha\{}l and Hoefler, Torsten},
-  year = 2024,
+  author = {Besta, Maciej and Kubicek, Ales and Gerstenberger, Robert and Chrapek, Marcin and Niggli, Roman and Okanovic, Patrik and Zhu, Yi and Iff, Patrick and Podstawksi, Michal and Weitzendorf, Lucas and Chi, Mingyuan and Gajda, Joanna and Nyczyk, Piotr and M\"{u}ller, J\"{u}rgen and Niewiadomski, Hubert and Hoefler, Torsten},
+  year = 2025,
   month = June,
   eprinttype = {arXiv},
   eprint = {2406.05085}
