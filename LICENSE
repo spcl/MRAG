@@ -43,13 +43,13 @@ Citation
 Any published work which uses this software should include the
 following citation:
 
-----------------------------------------------------------------------
-Maciej Besta, Ales Kubicek, Roman Niggli, Robert Gerstenberger, Lucas
-Weitzendorf, Mingyuan Chi, Patrick Iff, Joanna Gajda, Piotr Nyczyk,
-Jürgen Müller, Hubert Niewiadomski, Marcin Chrapek, Michał Podstawski,
-Torsten Hoefler: Multi-Head RAG: Solving Multi-Aspect Problems with
-LLMs. In: arXiv preprint arXiv:2406.05085.
-----------------------------------------------------------------------
+-----------------------------------------------------------------------
+Maciej Besta, Ales Kubicek, Robert Gerstenberger, Marcin Chrapek, Roman
+Niggli, Patrik Okanovic, Yi Zhu, Patrick Iff, Michal Podstawski, Lucas
+Weitzendorf, Mingyuan Chi, Joanna Gajda, Piotr Nyczyk, Jürgen Müller,
+Hubert Niewiadomski, Torsten Hoefler (2025): Multi-Head RAG: Solving
+Multi-Aspect Problems with LLMs. In: arXiv preprint arXiv:2406.05085.
+-----------------------------------------------------------------------
 
 
 MRAG has adapted some code for its Fusion RAG implementation from the
