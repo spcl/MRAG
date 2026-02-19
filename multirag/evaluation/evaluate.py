@@ -238,6 +238,165 @@ class MultiHeadStrategy(Strategy):
         """
         return tuple(doc for (votes, doc) in self._multi_vote(query_embs.embeddings, n))
 
+    def calculate_per_head_coverage(self, query_embs: list[QueryEmbeddings], n: int) -> dict:
+        """
+        Calculate coverage metrics for each attention head individually.
+
+        :param query_embs: Query embeddings to evaluate.
+        :type query_embs: list[QueryEmbeddings]
+        :param n: Maximum number of documents retrieved per query.
+        :type n: int
+        :return: Dictionary with per-head coverage results.
+        :rtype: dict
+        """
+        num_heads = len(self._get_head_scales())
+        
+        # Initialize arrays for each head
+        per_head_results = {}
+        for head_idx in range(num_heads):
+            per_head_results[head_idx] = {
+                'success': np.ndarray(shape=(len(query_embs), n), dtype=int),
+                'success_ratio': np.ndarray(shape=(len(query_embs), n), dtype=float),
+                'category_success': np.ndarray(shape=(len(query_embs), n), dtype=int),
+                'category_success_ratio': np.ndarray(shape=(len(query_embs), n), dtype=float),
+            }
+        
+        for i, query_emb in enumerate(query_embs):
+            rel = query_emb.query.topics
+            category_rel = {a.label for a in rel}
+            
+            # Get results for each head
+            ranking = self._search(query_emb.embeddings, n)
+            
+            # Process each head
+            for head_idx, head_results in enumerate(ranking):
+                for j in range(1, n + 1):
+                    # Get top j documents for this head
+                    sub_picks = tuple(doc for (dist, doc) in head_results[:j])
+                    
+                    fetched = set(sub_picks)
+                    per_head_results[head_idx]['success'][i][j-1] = 1 if rel.issubset(fetched) else 0
+                    per_head_results[head_idx]['success_ratio'][i][j-1] = len(rel & fetched) / len(rel)
+                    
+                    category_fetched = {a.label for a in fetched}
+                    per_head_results[head_idx]['category_success'][i][j-1] = 1 if category_rel.issubset(category_fetched) else 0
+                    per_head_results[head_idx]['category_success_ratio'][i][j-1] = len(category_rel & category_fetched) / len(category_rel)
+        
+        # Transpose and convert to lists
+        result = {}
+        for head_idx in range(num_heads):
+            result[f'head_{head_idx}'] = {
+                'success': per_head_results[head_idx]['success'].T.tolist(),
+                'success_ratio': per_head_results[head_idx]['success_ratio'].T.tolist(),
+                'category_success': per_head_results[head_idx]['category_success'].T.tolist(),
+                'category_success_ratio': per_head_results[head_idx]['category_success_ratio'].T.tolist(),
+            }
+        
+        return result
+
+    def calculate_per_head_category_distribution(self, query_embs: list[QueryEmbeddings], n: int) -> dict:
+        """
+        Calculate how many relevant documents per category each head successfully covers.
+
+        :param query_embs: Query embeddings to evaluate.
+        :type query_embs: list[QueryEmbeddings]
+        :param n: Maximum number of documents retrieved per query.
+        :type n: int
+        :return: Dictionary with per-head category distribution of relevant documents only.
+        :rtype: dict
+        """
+        num_heads = len(self._get_head_scales())
+        
+        # Dictionary to store category counts per head
+        # Structure: {head_idx: {category: count}}
+        per_head_category_counts = {}
+        for head_idx in range(num_heads):
+            per_head_category_counts[head_idx] = {}
+        
+        # Process each query
+        for query_emb in query_embs:
+            # Get the relevant documents for this query
+            rel = query_emb.query.topics
+            
+            # Get results for each head
+            ranking = self._search(query_emb.embeddings, n)
+            
+            # Process each head
+            for head_idx, head_results in enumerate(ranking):
+                # Get top n documents for this head
+                documents = [doc for (dist, doc) in head_results[:n]]
+                
+                # Count categories only for relevant documents
+                for doc in documents:
+                    if doc in rel:  # Only count if this is a relevant document
+                        category = doc.label
+                        if category not in per_head_category_counts[head_idx]:
+                            per_head_category_counts[head_idx][category] = 0
+                        per_head_category_counts[head_idx][category] += 1
+        
+        # Convert to result format
+        result = {}
+        for head_idx in range(num_heads):
+            result[f'head_{head_idx}'] = per_head_category_counts[head_idx]
+        
+        return result
+
+    def calculate_per_head_category_coverage(self, query_embs: list[QueryEmbeddings], n: int) -> dict:
+        """
+        Calculate how many documents per category each head retrieves that contribute to category success.
+        Only counts documents from categories that were successfully covered by that head.
+
+        :param query_embs: Query embeddings to evaluate.
+        :type query_embs: list[QueryEmbeddings]
+        :param n: Maximum number of documents retrieved per query.
+        :type n: int
+        :return: Dictionary with per-head category coverage.
+        :rtype: dict
+        """
+        num_heads = len(self._get_head_scales())
+        
+        # Dictionary to store category counts per head
+        # Structure: {head_idx: {category: count}}
+        per_head_category_counts = {}
+        for head_idx in range(num_heads):
+            per_head_category_counts[head_idx] = {}
+        
+        # Process each query
+        for query_emb in query_embs:
+            # Get the relevant documents for this query
+            rel = query_emb.query.topics
+            # Get the correct categories (categories containing relevant documents)
+            category_rel = {a.label for a in rel}
+            
+            # Get results for each head
+            ranking = self._search(query_emb.embeddings, n)
+            
+            # Process each head
+            for head_idx, head_results in enumerate(ranking):
+                # Get top n documents for this head
+                documents = [doc for (dist, doc) in head_results[:n]]
+                
+                # Determine which categories were successfully covered by this head
+                # (same logic as Strategy.run)
+                fetched = set(documents)
+                category_fetched = {a.label for a in fetched}
+                categories_covered = category_rel & category_fetched
+                
+                # Only count documents from categories that were successfully covered
+                for doc in documents:
+                    if doc.label in categories_covered:
+                        category = doc.label
+                        if category not in per_head_category_counts[head_idx]:
+                            per_head_category_counts[head_idx][category] = 0
+                        per_head_category_counts[head_idx][category] += 1
+        
+        # Convert to result format
+        result = {}
+        for head_idx in range(num_heads):
+            result[f'head_{head_idx}'] = per_head_category_counts[head_idx]
+        
+        return result
+
 
 class SplitStrategy(MultiHeadStrategy):
     """
@@ -417,10 +576,24 @@ def run_strategies(
         queries_by_num_topics[n_rel].append(query_emb)
 
     res: dict[str, dict[int, StrategyResult]] = {}
+    per_head_res: dict[str, dict[int, dict]] = {}
+    per_head_category_res: dict[str, dict[int, dict]] = {}
+    per_head_category_coverage_res: dict[str, dict[int, dict]] = {}
+    
     for strategy in strategies:
         res[strategy.name] = {}
         for n_rel, query_embs in tqdm(queries_by_num_topics.items(), strategy.name):
             res[strategy.name][n_rel] = strategy.run(query_embs, num_picks)
+        
+        # Calculate per-head coverage for MultiHeadStrategy instances
+        if isinstance(strategy, MultiHeadStrategy):
+            per_head_res[strategy.name] = {}
+            per_head_category_res[strategy.name] = {}
+            per_head_category_coverage_res[strategy.name] = {}
+            for n_rel, query_embs in tqdm(queries_by_num_topics.items(), f"{strategy.name} (per-head)"):
+                per_head_res[strategy.name][n_rel] = strategy.calculate_per_head_coverage(query_embs, num_picks)
+                per_head_category_res[strategy.name][n_rel] = strategy.calculate_per_head_category_distribution(query_embs, num_picks)
+                per_head_category_coverage_res[strategy.name][n_rel] = strategy.calculate_per_head_category_coverage(query_embs, num_picks)
 
     if export_path is None:
         return res
@@ -430,5 +603,26 @@ def run_strategies(
         os.makedirs(export_dir, exist_ok=True)
     with open(export_path, 'w') as file:
         json.dump(res, file, indent=4, default=lambda o: o.__dict__)
+    
+    # Export per-head results to a separate file if any were calculated
+    if per_head_res:
+        per_head_export_path = export_path.replace('.json', '_per_head.json')
+        print(f"Saving per-head data in {per_head_export_path}...")
+        with open(per_head_export_path, 'w') as file:
+            json.dump(per_head_res, file, indent=4)
+    
+    # Export per-head category distribution to a separate file if any were calculated
+    if per_head_category_res:
+        per_head_category_export_path = export_path.replace('.json', '_per_head_categories.json')
+        print(f"Saving per-head category data in {per_head_category_export_path}...")
+        with open(per_head_category_export_path, 'w') as file:
+            json.dump(per_head_category_res, file, indent=4)
+    
+    # Export per-head category coverage to a separate file if any were calculated
+    if per_head_category_coverage_res:
+        per_head_category_coverage_export_path = export_path.replace('.json', '_per_head_category_coverage.json')
+        print(f"Saving per-head category coverage data in {per_head_category_coverage_export_path}...")
+        with open(per_head_category_coverage_export_path, 'w') as file:
+            json.dump(per_head_category_coverage_res, file, indent=4)
 
     return res
