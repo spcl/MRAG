@@ -16,6 +16,7 @@ authors = [
   { name = "Ales Kubicek", email = "akubicek@student.ethz.ch" },
   { name = "Robert Gerstenberger", email = "gerstenberger.robert@gmail.com" },
   { name = "Patrick Iff", email = "patrick.iff@inf.ethz.ch" },
+  { name = "Yi Zhu", email = "yizhuy@ethz.ch" },
 ]
 description = "Python package for 'Multi-Head RAG' (MRAG)"
 readme = "README.md"

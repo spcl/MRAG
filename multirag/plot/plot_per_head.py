@@ -1,13 +1,39 @@
-import matplotlib.pyplot as plt
+# Copyright (c) 2026 ETH Zurich.
+#                    All rights reserved.
+#
+# Use of this source code is governed by a BSD-style license that can be
+# found in the LICENSE file.
+#
+# author:
+# Yi Zhu
+
+import argparse
 import json
+import matplotlib.pyplot as plt
 import numpy as np
 import os
-import argparse
-from pathlib import Path
 
 
-def load_results(per_head_path, regular_path, category_path=None, category_dist_path=None):
-    """Load per-head, regular results, category coverage, and category distribution JSON files."""
+def load_results(
+    per_head_path: str,
+    regular_path: str,
+    category_path: str | None = None,
+    category_dist_path: str | None = None
+) -> tuple[dict, dict, dict | None, dict | None]:
+    """
+    Load per-head, regular results, category coverage, and category distribution JSON files.
+
+    :param per_head_path: Path to per-head data.
+    :type per_head_path: str
+    :param regular_path: Path to overall strategy results, that are always generated.
+    :type regular_path: str
+    :param category_path: Path to the category coverage data. Defaults to None.
+    :type category_path: str | None
+    :param category_dist_path: Path to the category distribution data. Defaults to None.
+    :type category_dist_path: str | None
+    :return: Tuple of the per-head, regular results, category coverage, and category distribution data.
+    :rtype: tuple[dict, dict, dict | None, dict | None]
+    """
     with open(per_head_path, 'r') as f:
         per_head_data = json.load(f)
     with open(regular_path, 'r') as f:
@@ -26,18 +52,32 @@ def load_results(per_head_path, regular_path, category_path=None, category_dist_
     return per_head_data, regular_data, category_data, category_dist_data
 
 
-def plot_per_head_coverage(per_head_data, regular_data, category_data, category_dist_data, strategy_name, output_dir, metric='success_ratio'):
+def plot_per_head_coverage(
+    per_head_data: dict,
+    regular_data: dict,
+    category_data: dict | None,
+    category_dist_data: dict | None,
+    strategy_name: str,
+    output_dir: str,
+    metric: str = 'success_ratio'
+) -> None:
     """
     Plot per-head coverage metrics for a strategy.
     
-    Args:
-        per_head_data: Dictionary with per-head results
-        regular_data: Dictionary with overall strategy results
-        category_data: Dictionary with per-head category coverage (optional)
-        category_dist_data: Dictionary with per-head category distribution (optional)
-        strategy_name: Name of the strategy (e.g., 'multirag')
-        output_dir: Directory to save plots
-        metric: Metric to plot ('success_ratio', 'category_success_ratio', 'success', 'category_success')
+    :param per_head_data: Dictionary with per-head results.
+    :type per_head_data: dict
+    :param regular_data: Dictionary with overall strategy results.
+    :type regular_data: dict
+    :param category_data: Dictionary with per-head category coverage (optional).
+    :type category_data: dict | None
+    :param category_dist_data: Dictionary with per-head category distribution (optional).
+    :type category_dist_data: dict | None
+    :param strategy_name: Name of the strategy (e.g., 'multirag').
+    :type strategy_name: str
+    :param output_dir: Directory to store plots.
+    :type output_dir: str
+    :param metric: Metric to plot ('success_ratio', 'category_success_ratio', 'success', 'category_success'). Defaults to 'success_ratio'.
+    :type metric: str
     """
     if strategy_name not in per_head_data:
         print(f"Strategy {strategy_name} not found in per-head data")
@@ -116,7 +156,7 @@ def plot_per_head_coverage(per_head_data, regular_data, category_data, category_
         
         plt.tight_layout()
         
-        output_filename = f'{strategy_name}_n_rel_{n_rel}_average_{metric}.png'
+        output_filename = f'{strategy_name}_n_rel_{n_rel}_average_{metric}.pdf'
         output_path = os.path.join(output_dir, output_filename)
         plt.savefig(output_path, dpi=300, bbox_inches='tight')
         plt.close()
@@ -147,21 +187,38 @@ def plot_per_head_coverage(per_head_data, regular_data, category_data, category_
             create_category_head_correlation_heatmap(category_dist_results, num_heads, n_rel, strategy_name, output_dir)
 
 
-def create_accumulated_coverage_plot(per_head_results, category_results, n_rel, num_n_docs, num_queries, num_heads,
-                                     strategy_name, output_dir, metric):
+def create_accumulated_coverage_plot(
+    per_head_results: dict,
+    category_results: dict | None,
+    n_rel: int,
+    num_n_docs: int,
+    num_queries: int,
+    num_heads: int,
+    strategy_name: str,
+    output_dir: str,
+    metric: str
+) -> None:
     """
-    Create a plot showing total coverage contribution per head, colored by category.
-    
-    Args:
-        per_head_results: Dictionary with per-head results for this n_rel
-        category_results: Dictionary with per-head category distribution for this n_rel (optional)
-        n_rel: number of relevant documents
-        num_n_docs: number of different retrieval sizes
-        num_queries: number of queries
-        num_heads: number of attention heads
-        strategy_name: name of the strategy
-        output_dir: directory to save plots
-        metric: metric being plotted
+    Create a plot showing the total coverage contribution per head, colored by category.
+
+    :param per_head_results: Dictionary with per-head results for this n_rel.
+    :type per_head_results: dict
+    :param category_results: Dictionary with per-head category distribution for this n_rel (optional).
+    :type category_results: dict | None
+    :param n_rel: Number of relevant documents.
+    :type n_rel: int
+    :param num_n_docs: Number of different retrieval sizes.
+    :type num_n_docs: int
+    :param num_queries: Number of queries.
+    :type num_queries: int
+    :param num_heads: Number of attention heads.
+    :type num_heads: int
+    :param strategy_name: Name of the strategy.
+    :type strategy_name: str
+    :param output_dir: Directory to store plots.
+    :type output_dir: str
+    :param metric: Metric to be plotted.
+    :type metric: str
     """
     # Create plot
     fig, ax = plt.subplots(figsize=(12, 6))
@@ -205,7 +262,7 @@ def create_accumulated_coverage_plot(per_head_results, category_results, n_rel, 
         
         total = np.sum(bottom)
     else:
-        # Fallback to simple bar chart if no category data
+        # Fallback to simple bar chart if no category data is available
         total_coverage_per_head = np.zeros(num_heads)
         
         for head_idx in range(num_heads):
@@ -238,7 +295,7 @@ def create_accumulated_coverage_plot(per_head_results, category_results, n_rel, 
     
     plt.tight_layout()
     
-    output_filename = f'{strategy_name}_n_rel_{n_rel}_per_head_contribution_{metric}.png'
+    output_filename = f'{strategy_name}_n_rel_{n_rel}_per_head_contribution_{metric}.pdf'
     output_path = os.path.join(output_dir, output_filename)
     plt.savefig(output_path, dpi=300, bbox_inches='tight')
     plt.close()
@@ -246,16 +303,26 @@ def create_accumulated_coverage_plot(per_head_results, category_results, n_rel, 
     print(f"Saved per-head contribution plot: {output_path}")
 
 
-def create_transposed_category_plot(category_results, n_rel, strategy_name, output_dir, selected_heads=[7, 10, 21]):
+def create_transposed_category_plot(
+    category_results: dict,
+    n_rel: int,
+    strategy_name: str,
+    output_dir: str,
+    selected_heads: list[int] = [7, 10, 21]
+) -> None:
     """
     Create a transposed plot showing category distribution for selected heads.
     
-    Args:
-        category_results: Dictionary with per-head category distribution for this n_rel
-        n_rel: number of relevant documents
-        strategy_name: name of the strategy
-        output_dir: directory to save plots
-        selected_heads: list of head indices to display
+    :param category_results: Dictionary with per-head category distribution for this n_rel.
+    :type category_results: dict
+    :param n_rel: Number of relevant documents.
+    :type n_rel: int
+    :param strategy_name: Name of the strategy.
+    :type strategy_name: str
+    :param output_dir: Directory to store plots.
+    :type output_dir: str
+    :param selected_heads: List of head indices to plot. Defaults to [7, 10, 21].
+    :type selected_heads: list[int]
     """
     # Collect all unique categories
     all_categories = set()
@@ -305,7 +372,7 @@ def create_transposed_category_plot(category_results, n_rel, strategy_name, outp
     fig.suptitle(f'{strategy_name} - Category Distribution Tendency (n_rel={n_rel})', fontsize=14)
     plt.tight_layout()
     
-    output_filename = f'{strategy_name}_n_rel_{n_rel}_selected_heads_categories.png'
+    output_filename = f'{strategy_name}_n_rel_{n_rel}_selected_heads_categories.pdf'
     output_path = os.path.join(output_dir, output_filename)
     plt.savefig(output_path, dpi=300, bbox_inches='tight')
     plt.close()
@@ -313,16 +380,26 @@ def create_transposed_category_plot(category_results, n_rel, strategy_name, outp
     print(f"Saved transposed category plot for selected heads: {output_path}")
 
 
-def create_single_head_plot(category_results, n_rel, strategy_name, output_dir, head_idx=7):
+def create_single_head_plot(
+    category_results: dict,
+    n_rel: int,
+    strategy_name: str,
+    output_dir: str,
+    head_idx: int = 7
+) -> None:
     """
     Create a compact plot showing category distribution for a single head.
     
-    Args:
-        category_results: Dictionary with per-head category distribution for this n_rel
-        n_rel: number of relevant documents
-        strategy_name: name of the strategy
-        output_dir: directory to save plots
-        head_idx: head index to display
+    :param category_results: Dictionary with per-head category distribution for this n_rel.
+    :type category_results: dict
+    :param n_rel: Number of relevant documents.
+    :type n_rel: int
+    :param strategy_name: Name of the strategy.
+    :type strategy_name: str
+    :param output_dir: Directory to store plots.
+    :type output_dir: str
+    :param head_idx: Head index to display. Defaults to 7.
+    :type head_idx: int
     """
     head_key = f'head_{head_idx}'
     
@@ -353,7 +430,6 @@ def create_single_head_plot(category_results, n_rel, strategy_name, output_dir, 
     ax.tick_params(axis='y', labelsize=15)
     ax.set_xlabel('Categories', fontsize=20)
     ax.set_ylabel('Count', fontsize=20)
-    # ax.set_title(f'Head {head_idx} - Category Distribution (n_rel={n_rel})', fontsize=11, fontweight='bold')
     ax.grid(True, alpha=0.3, axis='y')
     
     plt.tight_layout()
@@ -366,20 +442,35 @@ def create_single_head_plot(category_results, n_rel, strategy_name, output_dir, 
     print(f"Saved single head plot for head {head_idx}: {output_path}")
 
 
-def create_coverage_histogram(head_data, n_rel, num_n_docs, num_queries, num_heads, 
-                              strategy_name, output_dir, metric):
+def create_coverage_histogram(
+    head_data: np.ndarray,
+    n_rel: int,
+    num_n_docs: int,
+    num_queries: int,
+    num_heads: int,
+    strategy_name: str,
+    output_dir: str,
+    metric: str
+) -> None:
     """
     Create histogram plot showing how many relevant documents are covered per head.
     
-    Args:
-        head_data: numpy array [n_docs, query_idx, head_idx]
-        n_rel: number of relevant documents
-        num_n_docs: number of different retrieval sizes
-        num_queries: number of queries
-        num_heads: number of attention heads
-        strategy_name: name of the strategy
-        output_dir: directory to save plots
-        metric: metric being plotted
+    :param head_data: Numpy array [n_docs, query_idx, head_idx].
+    :type head_data: np.ndarray
+    :param n_rel: Number of relevant documents.
+    :type n_rel: int
+    :param num_n_docs: Number of different retrieval sizes.
+    :type num_n_docs: int
+    :param num_queries: Number of queries.
+    :type num_queries: int
+    :param num_heads: Number of attention heads.
+    :type num_heads: int
+    :param strategy_name: Name of the strategy.
+    :type strategy_name: str
+    :param output_dir: Directory to store plots.
+    :type output_dir: str
+    :param metric: Metric to be plotted.
+    :type metric: str
     """
     # For ratio metrics, we need to convert back to counts
     # For binary metrics, we just count successes
@@ -419,7 +510,7 @@ def create_coverage_histogram(head_data, n_rel, num_n_docs, num_queries, num_hea
     
     plt.tight_layout()
     
-    output_filename = f'{strategy_name}_n_rel_{n_rel}_coverage_histogram_{metric}.png'
+    output_filename = f'{strategy_name}_n_rel_{n_rel}_coverage_histogram_{metric}.pdf'
     output_path = os.path.join(output_dir, output_filename)
     plt.savefig(output_path, dpi=300, bbox_inches='tight')
     plt.close()
@@ -427,16 +518,26 @@ def create_coverage_histogram(head_data, n_rel, num_n_docs, num_queries, num_hea
     print(f"Saved histogram plot: {output_path}")
 
 
-def create_mutual_information_heatmap(category_dist_results, num_heads, n_rel, strategy_name, output_dir):
+def create_mutual_information_heatmap(
+    category_dist_results: dict,
+    num_heads: int,
+    n_rel: int,
+    strategy_name: str,
+    output_dir: str
+) -> None:
     """
     Create a heatmap showing mutual information between pairs of heads based on category distributions.
     
-    Args:
-        category_dist_results: Dictionary with per-head category distribution for this n_rel
-        num_heads: number of attention heads
-        n_rel: number of relevant documents
-        strategy_name: name of the strategy
-        output_dir: directory to save plots
+    :param category_dist_results: Dictionary with per-head category distribution for this n_rel.
+    :type category_dist_results: dict
+    :param num_heads: Number of attention heads.
+    :type num_heads: int
+    :param n_rel: Number of relevant documents.
+    :type n_rel: int
+    :param strategy_name: Name of the strategy.
+    :type strategy_name: str
+    :param output_dir: Directory to store plots.
+    :type output_dir: str
     """
     from sklearn.metrics import mutual_info_score
     
@@ -541,7 +642,7 @@ def create_mutual_information_heatmap(category_dist_results, num_heads, n_rel, s
     
     plt.tight_layout()
     
-    output_filename = f'{strategy_name}_n_rel_{n_rel}_mutual_information_heatmap.png'
+    output_filename = f'{strategy_name}_n_rel_{n_rel}_mutual_information_heatmap.pdf'
     output_path = os.path.join(output_dir, output_filename)
     plt.savefig(output_path, dpi=300, bbox_inches='tight')
     plt.close()
@@ -549,16 +650,26 @@ def create_mutual_information_heatmap(category_dist_results, num_heads, n_rel, s
     print(f"Saved mutual information heatmap: {output_path}")
 
 
-def create_category_head_correlation_heatmap(category_dist_results, num_heads, n_rel, strategy_name, output_dir):
+def create_category_head_correlation_heatmap(
+    category_dist_results: dict,
+    num_heads: int,
+    n_rel: int,
+    strategy_name: str,
+    output_dir: str
+) -> None:
     """
     Create a heatmap showing the correlation between categories and heads.
     
-    Args:
-        category_dist_results: Dictionary with per-head category distribution for this n_rel
-        num_heads: number of attention heads
-        n_rel: number of relevant documents
-        strategy_name: name of the strategy
-        output_dir: directory to save plots
+    :param category_dist_results: Dictionary with per-head category distribution for this n_rel.
+    :type category_dist_results: dict
+    :param num_heads: Number of attention heads.
+    :type num_heads: int
+    :param n_rel: Number of relevant documents.
+    :type n_rel: int
+    :param strategy_name: Name of the strategy.
+    :type strategy_name: str
+    :param output_dir: Directory to store plots.
+    :type output_dir: str
     """
     # Collect all unique categories
     all_categories = set()
@@ -619,7 +730,7 @@ def create_category_head_correlation_heatmap(category_dist_results, num_heads, n
     
     plt.tight_layout()
     
-    output_filename = f'{strategy_name}_n_rel_{n_rel}_category_head_correlation.png'
+    output_filename = f'{strategy_name}_n_rel_{n_rel}_category_head_correlation.pdf'
     output_path = os.path.join(output_dir, output_filename)
     plt.savefig(output_path, dpi=300, bbox_inches='tight')
     plt.close()
